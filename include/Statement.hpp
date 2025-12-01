@@ -21,9 +21,6 @@ class Statement {
   std::string source_;
 };
 
-// TODO: Other statement types derived from Statement, e.g., GOTOStatement, LetStatement, etc.
-
-// 一般指令
 
 class REMStatement : public Statement {
 public:
@@ -90,36 +87,4 @@ private:
   int line_;
 };
 
-
-// 解释器指令
-
-class RUNStatement : public Statement {
-public:
-  explicit RUNStatement(std::string source);
-  void execute(VarState& state, Program& program) const override;
-};
-
-class LISTStatement : public Statement {
-public:
-  explicit LISTStatement(std::string source);
-  void execute(VarState& state, Program& program) const override;
-};
-
-class CLEARStatement : public Statement {
-public:
-  explicit CLEARStatement(std::string source);
-  void execute(VarState& state, Program& program) const override;
-};
-
-class QUITStatement : public Statement {
-public:
-  explicit QUITStatement(std::string source);
-  void execute(VarState& state, Program& program) const override;
-};
-
-class HELPStatement : public Statement {
-public:
-  explicit HELPStatement(std::string source);
-  void execute(VarState& state, Program& program) const override;
-};
 
