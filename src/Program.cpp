@@ -34,7 +34,7 @@ void Program::run() {
       programCounter_ = recorder_.nextLine(programCounter_);
     }
   }
-  resetAfterRun();
+  programEnd();
 }
 
 // 输出 `<line> <stmt>`。
