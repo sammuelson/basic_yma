@@ -90,13 +90,6 @@ private:
   int line_;
 };
 
-class DELETEStatement : public Statement {
-public:
-  DELETEStatement(std::string source, int line);
-  void execute(VarState& state, Program& program) const override;
-private:
-  int line_;
-};
 
 // 解释器指令
 

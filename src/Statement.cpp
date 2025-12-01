@@ -94,14 +94,6 @@ void IFStatement::execute(VarState& state, Program& program) const { //todo?????
   }
 }
 
-DELETEStatement::DELETEStatement(std::string source, int line)
-  : Statement(source), line_(line) {}
-
-//todo
-void DELETEStatement::execute(VarState& state, Program& program) const {
-  // program.deleteLine(line_);
-}
-
 // 解释器指令
 //todo
 RUNStatement::RUNStatement(std::string source) : Statement(std::move(source)) {}
