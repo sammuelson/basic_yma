@@ -34,12 +34,16 @@ void Recorder::remove(int line) {
 }
 
 // 读取行号对应 Stmt ，不存在则返回 nullptr。
-const Statement* Recorder::get(int line) const noexcept {
+Statement* Recorder::getStmt(int line) const noexcept{
   auto it = statements_.find(line);
   if (it != statements_.end()) {
     return it->second;
   }
   return nullptr;
+}
+
+const Statement* Recorder::get(int line) const noexcept {
+  return getStmt(line);
 }
 
 // 询问行号对应 Stmt 是否存在。
@@ -56,6 +60,12 @@ void Recorder::clear() noexcept {
     delete it->second;
   }
   statements_.clear();
+}
+
+// 询问statements_是否为空。
+bool Recorder::empty() const noexcept {
+  if (statements_.empty()) {return true;}
+  return false;
 }
 
 // 按行号升序输出所有程序。

@@ -27,12 +27,16 @@ public:
 
  	// 读取行号对应 Stmt ，不存在则返回 nullptr。
  	const Statement* get(int line) const noexcept;
+ 	Statement* getStmt(int line) const noexcept;
 	
 	// 询问行号对应 Stmt 是否存在。
 	bool hasLine(int line) const noexcept;
 
 	// 清空全部行。
 	void clear() noexcept;
+	
+	// 询问statements_是否为空。
+	bool empty() const noexcept;
 	
 	// 按行号升序输出所有程序。
 	void printLines() const; 
