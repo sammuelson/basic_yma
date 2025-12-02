@@ -23,8 +23,8 @@ int main() {
     try {
 
       bool executed = false;
-      TokenStream crt_TStr = lexer.tokenize(line);
-      if (crt_TStr.size() == 1) {
+      TokenStream crt_TStream = lexer.tokenize(line);
+      if (crt_TStream.size() == 1) {
         if (line == "RUN") {
           executed = true;
           program.run();
@@ -47,7 +47,7 @@ int main() {
         }
       }
       if (!executed) {
-        ParsedLine crt_PLine = parser.parseLine(crt_TStr, line);
+        ParsedLine crt_PLine = parser.parseLine(crt_TStream, line);
         if (crt_PLine.getLine()) {
           // 如果有行号，返回true
           int line_num = crt_PLine.getLine().value();
