@@ -24,6 +24,7 @@ void Recorder::add(int line, Statement *stmt) {
     statements_.insert({line, stmt});
   }
   else {
+    delete it->second;      // 释放旧对象，防止内存泄漏。
     it->second = stmt;
   }
 }
@@ -75,7 +76,7 @@ bool Recorder::empty() const noexcept {
 // 按行号升序输出所有程序。
 void Recorder::printLines() const {
   for (auto it = statements_.begin(); it != statements_.end(); it++) {
-    std::cout << it->first << " " << it->second->text() << std::endl;
+    std::cout<< it->second->text() << std::endl;
   }
 }
 

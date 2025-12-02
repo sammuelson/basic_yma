@@ -43,7 +43,7 @@ int main() {
         }
         if (line == "HELP") {
           executed = true;
-          void Help();
+          Help();
         }
       }
       if (!executed) {
@@ -56,7 +56,8 @@ int main() {
           }
           else {
             // 存入指令集。
-            program.addStmt(line_num, crt_PLine.getStatement());
+            Statement* crt_stmt = crt_PLine.fetchStatement();  //这样Pline析构之后就不会把这个指针删掉
+            program.addStmt(line_num, crt_stmt);
           }
         }
         else {  // 直接执行。

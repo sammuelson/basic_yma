@@ -28,8 +28,9 @@ void Program::run() {
   programCounter_ = recorder_.nextLine(0);
   while (programCounter_ > 0 && !programEnd_) {
     Statement* crt_stmt = recorder_.getStmt(programCounter_);
+    int crt_pc = programCounter_;
     execute(crt_stmt);
-    if (!programEnd_ && programCounter_ != -1) {
+    if (!programEnd_ && programCounter_ != -1 && crt_pc == programCounter_) {
       programCounter_ = recorder_.nextLine(programCounter_);
     }
   }
@@ -65,7 +66,7 @@ void Program::changePC(int line) {
   }
   // 检查目标行号是否存在
   if (!recorder_.hasLine(line)) {
-    throw BasicError("LINE NUMBER NOT FOUND");
+    throw BasicError("LINE NUMBER ERROR");
   }
   programCounter_ = line;
 }
