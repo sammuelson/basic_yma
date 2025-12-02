@@ -40,10 +40,41 @@ INPUTStatement::INPUTStatement(std::string source, std::string var)
   : Statement(std::move(source)), var_(std::move(var)) {}
 
 void INPUTStatement::execute(VarState& state, Program& program) const {
-  std::cout << "?";
-  int value;
-  std::cin >> value;
-  state.setValue(var_, value);
+  while (true) {
+    std::cout << " ? ";
+    // cin.getline后检查整数数字合法性（首位为0则自动规范化）。若不合法，打印“INVALID NUMBER\n ? "，重新读入
+    std::string str;
+    std::getline(std::cin, str);
+    if (str.length() <= 0) {
+      //throw BasicError("INVALID NUMBER\n");
+      std::cout << "INVALID NUMBER\n";
+      continue;
+    }
+
+    int value = 0;
+    int sign = 1;
+    bool valid = 1;
+    for (int i = 0; i < str.length(); i++) {
+      if (i == 0 && str[i] == '-') {
+        sign = -1;
+      }
+      else if (str[i] >= '0' && str[i] <= '9') {
+        value *= 10;
+        value += str[i] - '0';
+      }
+      else {
+        valid = 0;
+        std::cout << "INVALID NUMBER\n";
+        break;
+      }
+    }
+    if (!valid) {
+      continue;
+    }
+    value *= sign;
+    state.setValue(var_, value);
+    return;
+  }
 }
 
 ENDStatement::ENDStatement(std::string source)
