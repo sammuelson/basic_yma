@@ -16,7 +16,7 @@ const std::string& Statement::text() const noexcept { return source_; }
 
 REMStatement::REMStatement(std::string source)
   : Statement(std::move(source)) {}
-void execute(VarState& state, Program& program) {}  //无操作。
+void REMStatement::execute(VarState& state, Program& program) const {}  //无操作。
 
 LETStatement::LETStatement(std::string source, std::string var, Expression* expr)
   : Statement(std::move(source)), var_(std::move(var)), expr_(expr) {}

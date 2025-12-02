@@ -7,6 +7,10 @@
 #include "Statement.hpp"
 #include "utils/Error.hpp"
 
+Recorder::~Recorder() {
+  clear();
+}
+
 // 插入或覆盖指定行。
 void Recorder::add(int line, Statement *stmt) {
   if (line <= 0) {
