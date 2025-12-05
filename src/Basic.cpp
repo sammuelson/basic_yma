@@ -56,8 +56,8 @@ int main() {
           }
           else {
             // 存入指令集。
-            Statement* crt_stmt = crt_PLine.fetchStatement();  //这样Pline析构之后就不会把这个指针删掉
-            program.addStmt(line_num, crt_stmt);
+            std::unique_ptr<Statement> crt_stmt = crt_PLine.fetchStatement();  //这样Pline析构之后就不会把这个指针删掉
+            program.addStmt(line_num, std::move(crt_stmt));
           }
         }
         else {  // 直接执行。

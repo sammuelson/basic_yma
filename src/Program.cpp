@@ -10,11 +10,11 @@
 Program::Program() : programCounter_(-1), programEnd_(false) {}
 
 // 添加一行程序。
-void Program::addStmt(int line, Statement* stmt) {
+void Program::addStmt(int line, std::unique_ptr<Statement> stmt) {
   if (line <= 0) {
     throw BasicError("INVALID LINE NUMBER");
   }
-  recorder_.add(line, stmt);
+  recorder_.add(line, std::move(stmt));
 }
 
 // 删除行号对应的语句。
@@ -27,7 +27,7 @@ void Program::run() {
   programEnd_ = false;
   programCounter_ = recorder_.nextLine(0);
   while (programCounter_ > 0 && !programEnd_) {
-    Statement* crt_stmt = recorder_.getStmt(programCounter_);
+    const std::shared_ptr<Statement> crt_stmt = recorder_.get(programCounter_);
     int crt_pc = programCounter_;
     execute(crt_stmt);
     if (!programEnd_ && programCounter_ != -1 && crt_pc == programCounter_) {
@@ -49,7 +49,7 @@ void Program::clear() {
 }
 
 // 执行一条语句
-void Program::execute(Statement* stmt) {
+void Program::execute(const std::shared_ptr<Statement> stmt) {
   if (stmt == nullptr) {return; }
   stmt->execute(vars_, *this);
 }

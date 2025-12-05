@@ -7,12 +7,9 @@
 #include "Statement.hpp"
 #include "utils/Error.hpp"
 
-Recorder::~Recorder() {
-  clear();
-}
 
 // 插入或覆盖指定行。
-void Recorder::add(int line, Statement *stmt) {
+void Recorder::add(int line, std::unique_ptr<Statement> stmt) {
   if (line <= 0) {
     throw BasicError("INVALID LINE NUMBER");
   }
@@ -21,11 +18,10 @@ void Recorder::add(int line, Statement *stmt) {
   }
   auto it = statements_.find(line);
   if (it == statements_.end()) {
-    statements_.insert({line, stmt});
+    statements_.insert({line, std::move(stmt)});
   }
   else {
-    delete it->second;      // 释放旧对象，防止内存泄漏。
-    it->second = stmt;
+    it->second = std::move(stmt);
   }
 }
 
@@ -33,22 +29,24 @@ void Recorder::add(int line, Statement *stmt) {
 void Recorder::remove(int line) {
   auto it = statements_.find(line);
   if (it != statements_.end()) {
-    delete it->second;  // 释放语句对象
     statements_.erase(it);
   }
 }
 
 // 读取行号对应 Stmt ，不存在则返回 nullptr。
-Statement* Recorder::getStmt(int line) const noexcept{
+/*const Statement* Recorder::get(int line) const noexcept {
   auto it = statements_.find(line);
   if (it != statements_.end()) {
     return it->second;
   }
   return nullptr;
-}
-
-const Statement* Recorder::get(int line) const noexcept {
-  return getStmt(line);
+}*/
+const std::shared_ptr<Statement> Recorder::get(int line) const noexcept {
+  auto it = statements_.find(line);
+  if (it != statements_.end()) {
+    return it->second;
+  }
+  return nullptr;
 }
 
 // 询问行号对应 Stmt 是否存在。
@@ -61,9 +59,6 @@ bool Recorder::hasLine(int line) const noexcept {
 
 // 清空全部行。
 void Recorder::clear() noexcept {
-  for (auto it = statements_.begin(); it != statements_.end(); it++) {
-    delete it->second;
-  }
   statements_.clear();
 }
 

@@ -8,12 +8,10 @@
 
 class Recorder {
  public:
-  ~Recorder();
-
-  void add(int line, Statement* stmt);
+  void add(int line, std::unique_ptr<Statement> stmt);
   void remove(int line);
-  const Statement* get(int line) const noexcept;
-  Statement* getStmt(int line) const noexcept;
+  const std::shared_ptr<Statement> get(int line) const noexcept;
+  //std::unique_ptr<Statement> getStmt(int line) const noexcept;
   bool hasLine(int line) const noexcept;
   void clear() noexcept;
   bool empty() const noexcept;
@@ -21,5 +19,5 @@ class Recorder {
   int nextLine(int line) const noexcept;
 
  private:
-  std::map<int, Statement*> statements_;
+  std::map<int, std::shared_ptr<Statement>> statements_;
 };

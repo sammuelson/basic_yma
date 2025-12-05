@@ -30,24 +30,22 @@ public:
 
 class LETStatement : public Statement {
 public:
-  LETStatement(std::string source, std::string var, Expression* expr);
-  ~LETStatement();
+  LETStatement(std::string source, std::string var, std::unique_ptr<Expression> expr);
   void execute(VarState& state, Program& program) const override;
 
 private:
   std::string var_;
-  Expression* expr_;
+  std::unique_ptr<Expression> expr_;
 };
 
 class PRINTStatement : public Statement {
 public:
-  PRINTStatement(std::string source, Expression* expr);
-  ~PRINTStatement();
+  PRINTStatement(std::string source, std::unique_ptr<Expression> expr);
 
   void execute(VarState& state, Program& program) const override;
 
 private:
-  Expression* expr_;
+  std::unique_ptr<Expression> expr_;
 };
 
 class INPUTStatement : public Statement {
@@ -76,13 +74,13 @@ private:
 
 class IFStatement : public Statement {
 public:
-  IFStatement(std::string source, Expression* expr1, char op, Expression* expr2, int line);
-  ~IFStatement() override;
+  IFStatement(std::string source, std::unique_ptr<Expression> expr1, char op,
+    std::unique_ptr<Expression> expr2, int line);
   void execute(VarState& state, Program& program) const override;
 
 private:
-  Expression* expr1_;
-  Expression* expr2_;
+  std::unique_ptr<Expression> expr1_;
+  std::unique_ptr<Expression> expr2_;
   char op_;
   int line_;
 };

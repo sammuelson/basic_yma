@@ -18,18 +18,17 @@ REMStatement::REMStatement(std::string source)
   : Statement(std::move(source)) {}
 void REMStatement::execute(VarState& state, Program& program) const {}  //无操作。
 
-LETStatement::LETStatement(std::string source, std::string var, Expression* expr)
-  : Statement(std::move(source)), var_(std::move(var)), expr_(expr) {}
-LETStatement::~LETStatement() { delete expr_; }
+LETStatement::LETStatement(std::string source, std::string var,
+  std::unique_ptr<Expression> expr)
+  : Statement(std::move(source)), var_(std::move(var)), expr_(std::move(expr)) {}
 
 void LETStatement::execute(VarState& state, Program& program) const {
   int value = expr_->evaluate(state);
   state.setValue(var_, value);
 }
 
-PRINTStatement::PRINTStatement(std::string source, Expression* expr)
-  : Statement(std::move(source)), expr_(expr) {}
-PRINTStatement::~PRINTStatement() { delete expr_; }
+PRINTStatement::PRINTStatement(std::string source, std::unique_ptr<Expression> expr)
+  : Statement(std::move(source)), expr_(std::move(expr)) {}
 
 void PRINTStatement::execute(VarState& state, Program& program) const {
   int value = expr_->evaluate(state);
@@ -91,13 +90,10 @@ void GOTOStatement::execute(VarState& state, Program& program) const {
   program.changePC(line_);
 }
 
-IFStatement::IFStatement(std::string source, Expression* expr1, char op,
-  Expression* expr2, int line)
-  : Statement(std::move(source)), expr1_(expr1), expr2_(expr2), op_(op), line_(line) {}
-IFStatement::~IFStatement() {
-  delete expr1_;
-  delete expr2_;
-}
+IFStatement::IFStatement(std::string source, std::unique_ptr<Expression> expr1,
+  char op, std::unique_ptr<Expression> expr2, int line)
+  : Statement(std::move(source)), expr1_(std::move(expr1)), expr2_(std::move(expr2)),
+    op_(op), line_(line) {}
 
 void IFStatement::execute(VarState& state, Program& program) const {
   int value1 = expr1_->evaluate(state);
