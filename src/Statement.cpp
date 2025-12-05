@@ -24,7 +24,8 @@ LETStatement::~LETStatement() { delete expr_; }
 
 void LETStatement::execute(VarState& state, Program& program) const {
   int value = expr_->evaluate(state);
-  state.setValue(var_, value);
+  int crtLevel = program.getLC();
+  state.setValue(crtLevel, var_, value);
 }
 
 PRINTStatement::PRINTStatement(std::string source, Expression* expr)
@@ -72,7 +73,8 @@ void INPUTStatement::execute(VarState& state, Program& program) const {
       continue;
     }
     value *= sign;
-    state.setValue(var_, value);
+    int crtLevel = program.getLC();
+    state.setValue(crtLevel, var_, value);
     return;
   }
 }

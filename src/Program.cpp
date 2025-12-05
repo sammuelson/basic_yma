@@ -1,4 +1,3 @@
-// TODO
 #include "Program.hpp"
 
 #include <string>
@@ -7,7 +6,7 @@
 #include "Statement.hpp"
 #include "utils/Error.hpp"
 
-Program::Program() : programCounter_(-1), programEnd_(false) {}
+Program::Program() : programCounter_(-1), programEnd_(false), levelCounter_(0) {}
 
 // 添加一行程序。
 void Program::addStmt(int line, Statement* stmt) {
@@ -48,10 +47,31 @@ void Program::clear() {
   vars_.clear();
 }
 
+// 进入一层。
+void Program::indent() {
+  levelCounter_ += 1;
+  vars_.mapIndent();
+}
+
+// 退出一层。
+void Program::dedent() {
+  // 检验层数合法性.
+  if (levelCounter_ <= 0) {
+    throw BasicError("INVALID DEDENT");
+  }
+  levelCounter_ -= 1;
+  vars_.mapDedent();
+}
+
 // 执行一条语句
 void Program::execute(Statement* stmt) {
   if (stmt == nullptr) {return; }
   stmt->execute(vars_, *this);
+}
+
+// 获取当前层数。
+int Program::getLC() const noexcept {
+  return levelCounter_;
 }
 
 // 获取当前行号，RUN 期间有效
