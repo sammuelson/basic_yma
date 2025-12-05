@@ -12,7 +12,10 @@ Statement (抽象基类)
 ├── INPUTStatement (INPUT <var>.表示输出一个 ?，之后从标准输入读取一个整数并赋值给变量)
 ├── ENDStatement (表示程序结束执行)
 ├── GOTOStatement (GOTO <line>。表示跳转到指定行号执行。)
-└── IFStatement (IF <expr1> <op> <expr2> THEN <line>：条件跳转，若 expr1 和 expr2 通过操作符 op 比较为真，则跳转到指定行号执行。支持的操作符包括 =, <, >。 如果只有一个行号，代表删除对应指令。)
+└── IFStatement (IF <expr1> <op> <expr2> THEN <line>：条件跳转，若 expr1 和 expr2 通过操作符 op 比较为真，则跳转到指定行号执行。
+├── INDENTStatement
+└── DEDENTStatement
+支持的操作符包括 =, <, >。 如果只有一个行号，代表删除对应指令。)
 
 
 ```

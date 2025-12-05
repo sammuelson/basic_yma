@@ -23,6 +23,8 @@ class Program {
   void execute(Statement* stmt);
 
   int getLC() const noexcept;
+  // void plusLC();
+  // void minusLC();
   int getPC() const noexcept;
   void changePC(int line);
   void programEnd();

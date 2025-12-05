@@ -87,4 +87,15 @@ private:
   int line_;
 };
 
+class INDENTStatement : public Statement {
+public:
+  INDENTStatement(std::string source);
+  void execute(VarState& state, Program& program) const override;
+};
+
+class DEDENTStatement : public Statement {
+public:
+  DEDENTStatement(std::string source);
+  void execute(VarState& state, Program& program) const override;
+};
 

@@ -83,6 +83,8 @@ void Help() {
   std::cout << "<line> GOTO <line> - Jump to specified line" << std::endl;
   std::cout << "<line> IF <expr1> <op> <expr2> THEN <line> - Conditional jump" << std::endl;
   std::cout << "<line> - Delete line" << std::endl;
+  std::cout << "<line> INDENT - Indent" << std::endl;
+  std::cout << "<line> DEDENT - Dedent" << std::endl;
   std::cout << "RUN - Start program execution" << std::endl;
   std::cout << "LIST - List all program lines" << std::endl;
   std::cout << "CLEAR - Clear all program lines" << std::endl;

@@ -120,3 +120,17 @@ void IFStatement::execute(VarState& state, Program& program) const {
     program.changePC(line_);
   }
 }
+
+INDENTStatement::INDENTStatement(std::string source)
+  : Statement(std::move(source)) {}
+
+void INDENTStatement::execute(VarState& state, Program& program) const {
+  program.indent();
+}
+
+DEDENTStatement::DEDENTStatement(std::string source)
+  : Statement(std::move(source)) {}
+
+void DEDENTStatement::execute(VarState& state, Program& program) const {
+  program.dedent();
+}
