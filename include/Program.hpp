@@ -22,6 +22,7 @@ class Program {
 
   void execute(Statement* stmt);
 
+  void initVState();
   int getLC() const noexcept;
   // void plusLC();
   // void minusLC();

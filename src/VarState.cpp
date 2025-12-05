@@ -5,6 +5,7 @@
 #include "utils/Error.hpp"
 
 const unordered_map<string, int> init_int;
+const vector<int> init_level;
 
 void VarState::mapIndent() {
   map_values.push_back({init_int});    // 准备该层的空map，以便记录新变量。
@@ -33,12 +34,10 @@ void VarState::setValue(int crtLevel, const std::string& name, int value) {
   }
   else {
     map_values[map_values.size() - 1].insert({name, value});
-    if (where_int.count(name) == 1) {  // 该变量在较低层存在。
-      where_int.find(name)->second.push_back(crtLevel);
+    if (where_int.count(name) == 0) {
+      where_int.insert({name, init_level});  // 该变量名从未存在。
     }
-    else {
-      where_int.find(name)->second.pop_back();  // 该变量名从未存在。
-    }
+    where_int.find(name)->second.push_back(crtLevel);  //// 该变量从未存在或者在较低层存在。
   }
 }
 
@@ -46,10 +45,11 @@ int VarState::getValue(const std::string& name) const {
   if (where_int.find(name) == where_int.end()) {
     throw BasicError("VARIABLE NOT DEFINED");
   }
-  return where_int.find(name)->second[where_int.find(name)->second.size() - 1];
+  int level_found = where_int.find(name)->second[where_int.find(name)->second.size() - 1];
+  return map_values[level_found].find(name)->second;
 }
 
-void VarState::clear() {
+void VarState::mapInit() {
   where_int.clear();
   map_values.clear();
   map_values.push_back(init_int);

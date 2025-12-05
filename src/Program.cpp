@@ -44,7 +44,7 @@ void Program::list() const {
 // 清空 Recorder 与 VarState
 void Program::clear() {
   recorder_.clear();
-  vars_.clear();
+  vars_.mapInit();
 }
 
 // 进入一层。
@@ -57,7 +57,7 @@ void Program::indent() {
 void Program::dedent() {
   // 检验层数合法性.
   if (levelCounter_ <= 0) {
-    throw BasicError("INVALID DEDENT");
+    throw BasicError("SCOPE UNDERFLOW");
   }
   levelCounter_ -= 1;
   vars_.mapDedent();
@@ -67,6 +67,11 @@ void Program::dedent() {
 void Program::execute(Statement* stmt) {
   if (stmt == nullptr) {return; }
   stmt->execute(vars_, *this);
+}
+
+// 初始化VarState。
+void Program::initVState() {
+  vars_.mapInit();
 }
 
 // 获取当前层数。

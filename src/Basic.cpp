@@ -15,6 +15,7 @@ int main() {
   Parser parser;
   Program program;
 
+  program.initVState();
   std::string line;
   while (std::getline(std::cin, line)) {
     if (line.empty()) {

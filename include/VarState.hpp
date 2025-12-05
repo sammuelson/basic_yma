@@ -12,11 +12,11 @@ using std::unordered_map;
 
 class VarState {
  public:
+  void mapInit();
   void mapIndent();
   void mapDedent();
   void setValue(int crtLevel, const std::string& name, int value);
   int getValue(const std::string& name) const;
-  void clear();
 
  private:
   // levelCounter_在Program中管理。
